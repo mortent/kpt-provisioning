@@ -6,3 +6,4 @@ bases:
 - svc-headless.yaml
 - svc.yaml
 - pdb.yaml
+- networkpolicy/networkpolicy.yaml

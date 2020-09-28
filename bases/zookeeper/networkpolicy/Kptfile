@@ -1,0 +1,30 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: zookeeper-networkpolicy
+upstream:
+  type: git
+  git:
+    commit: f542f03cd5b831f6521f2adc16c0e764667cf9a3
+    repo: https://github.com/mortent/kpt-packages
+    directory: zookeeper-networkpolicy
+    ref: master
+packageMetadata:
+  shortDescription: sample description
+openAPI:
+  definitions:
+    io.k8s.cli.setters.electionPort:
+      x-k8s-cli:
+        setter:
+          name: electionPort
+          value: "3888"
+    io.k8s.cli.setters.followerPort:
+      x-k8s-cli:
+        setter:
+          name: followerPort
+          value: "2888"
+    io.k8s.cli.setters.port:
+      x-k8s-cli:
+        setter:
+          name: port
+          value: "2181"

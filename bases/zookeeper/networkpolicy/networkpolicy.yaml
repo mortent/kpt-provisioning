@@ -1,0 +1,29 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: zookeeper
+  namespace: default # {"$kpt-set":"namespace"}
+  labels:
+    app.kubernetes.io/component: zookeeper
+    app.kubernetes.io/name: zookeeper
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: zookeeper
+      app.kubernetes.io/name: zookeeper
+  ingress:
+  - ports:
+    - port: 2181 # {"$kpt-set":"port"}
+    from:
+    - podSelector:
+        matchLabels: {}
+  - ports: &intranodes_ports
+    - port: 2888 # {"$kpt-set":"followerPort"}
+    - port: 3888 # {"$kpt-set":"electionPort"}
+    from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: zookeeper
+          app.kubernetes.io/component: zookeeper
+  egress:
+  - ports: *intranodes_ports
