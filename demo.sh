@@ -59,12 +59,10 @@ pe "sed -i '' 's/"2000"/"1000"/g' bases/zookeeper/statefulset.yaml"
 wait
 
 p "# add a kustomization file so we can use this package as the base for kustomize overlays"
-pe 'cat <<EOF >bases/zookeeper/kustomization.yaml
+pe 'cat <<EOF >bases/zookeeper/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-metadata:
-  annotations:
-    config.kubernetes.io/local-config: "true"
+
 bases:
 - statefulset.yaml
 - svc-headless.yaml
@@ -153,12 +151,10 @@ pe "cat bases/zookeeper/pdb.yaml"
 wait
 
 p "# update the kustomization file to include the newly added pdb.yaml manifest"
-pe 'cat <<EOF >bases/zookeeper/kustomization.yaml
+pe 'cat <<EOF >bases/zookeeper/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-metadata:
-  annotations:
-    config.kubernetes.io/local-config: "true"
+
 bases:
 - statefulset.yaml
 - svc-headless.yaml
@@ -189,12 +185,10 @@ p "# pull in an optional add-on with a networkpolicy for Zookeeper"
 pe "kpt pkg get https://github.com/mortent/kpt-packages/zookeeper-networkpolicy bases/zookeeper/networkpolicy"
 
 p "# update the kustomization file to include networkpolicy"
-pe 'cat <<EOF >bases/zookeeper/kustomization.yaml
+pe 'cat <<EOF >bases/zookeeper/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-metadata:
-  annotations:
-    config.kubernetes.io/local-config: "true"
+
 bases:
 - statefulset.yaml
 - svc-headless.yaml
